@@ -63,7 +63,7 @@ Vereinfacht: Je zwei Modifikatoren mit ähnlicher Wirkung teilen sich einen Soun
 und erscheinen auf der Vorhörseite als eine Zeile „Kräuter und Sonderkarten“.
 
 Auch bei gemeinsamen Sounds hat jedes Ereignis seine eigene Datei und URL `sounds/<event_type>.mp3`.
-Die Dateien sind dann einfach identisch. So bleibt das Home-Assistant-Skript gleich.
+Die Dateien sind dann einfach identisch. So funktioniert der Aufruf über die URL für jedes Ereignis gleich.
 
 Die maßgebliche Liste ist [`sounds.json`](sounds.json). Jeder Eintrag hat diese Felder:
 
@@ -134,7 +134,7 @@ Voraussetzung: `ffmpeg` ist installiert (`brew install ffmpeg` oder `sudo apt in
    Ein bis zwei Minuten nach dem Push auf `main` ist die Datei über GitHub Pages erreichbar.
 
 Ein **neues Ereignis** braucht zusätzlich einen Eintrag in `sounds.json`, eine Zeile in `CREDITS.md`
-und eine Zeile in der passenden Tabelle oben. Optional die Auswahlliste im HA-Skript ergänzen.
+und eine Zeile in der passenden Tabelle oben.
 
 Zum Vorhören die [Vorhörseite](https://jonaskoe.github.io/frosthaven-sounds/) öffnen.
 Sie zeigt bei jedem Sound auch Quelle, Urheber und Lizenz an. Diese Angaben liest sie aus `CREDITS.md`.
@@ -142,8 +142,8 @@ Lokal funktioniert sie nur über einen Webserver, z. B. `python3 -m http.server`
 
 ## Home Assistant
 
-Das vollständige Skript steht in [`homeassistant/alexa_sound_script.yaml`](homeassistant/alexa_sound_script.yaml).
-Der Kern:
+Beispiel für ein Skript (`scripts.yaml`), das einen Sound auf einem Echo abspielt.
+Voraussetzung ist [Alexa Media Player](https://github.com/alandtse/alexa_media_player) (HACS):
 
 ```yaml
 alexa_sound:
