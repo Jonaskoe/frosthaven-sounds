@@ -113,6 +113,7 @@ Ein **neues Ereignis** braucht zusätzlich einen Eintrag in `sounds.json` und in
 Optional die Auswahlliste im HA-Skript ergänzen.
 
 Zum Vorhören die [Vorhörseite](https://jonaskoe.github.io/frosthaven-sounds/) öffnen.
+Sie zeigt bei jedem Sound auch Quelle, Urheber und Lizenz an. Diese Angaben liest sie aus `CREDITS.md`.
 Lokal funktioniert sie nur über einen Webserver, z. B. `python3 -m http.server`, dann <http://localhost:8000>.
 
 ## Home Assistant

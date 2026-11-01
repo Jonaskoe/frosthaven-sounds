@@ -2,6 +2,8 @@
 
 Jeder Sound hat seine eigene Lizenz. Deshalb gibt es keine gemeinsame LICENSE-Datei.
 Vor jedem Commit eines Sounds muss seine Zeile hier ausgefüllt sein.
+Die [Vorhörseite](https://jonaskoe.github.io/frosthaven-sounds/) liest die Tabelle unten und zeigt die Angaben
+bei jedem Sound an. Deshalb Überschrift „## Sounds“ und Spaltenreihenfolge beibehalten.
 
 ## Hinweise
 
