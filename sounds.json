@@ -1,0 +1,165 @@
+[
+  {
+    "event_type": "double",
+    "category": "modifier",
+    "label": "Doppelt (2x)",
+    "rating": "very_bad",
+    "file": "sounds/double.mp3",
+    "description": "Monster verursacht doppelten Schaden, löst Mischen aus."
+  },
+  {
+    "event_type": "plus2",
+    "category": "modifier",
+    "label": "+2",
+    "rating": "bad",
+    "file": "sounds/plus2.mp3",
+    "description": "Monster verursacht 2 Schaden mehr."
+  },
+  {
+    "event_type": "plus1",
+    "category": "modifier",
+    "label": "+1",
+    "rating": "bad",
+    "file": "sounds/plus1.mp3",
+    "description": "Monster verursacht 1 Schaden mehr (eher schlecht)."
+  },
+  {
+    "event_type": "plus0",
+    "category": "modifier",
+    "label": "+0",
+    "rating": "neutral",
+    "file": "sounds/plus0.mp3",
+    "description": "Schaden bleibt unverändert."
+  },
+  {
+    "event_type": "minus1",
+    "category": "modifier",
+    "label": "-1",
+    "rating": "good",
+    "file": "sounds/minus1.mp3",
+    "description": "Monster verursacht 1 Schaden weniger (eher gut)."
+  },
+  {
+    "event_type": "minus2",
+    "category": "modifier",
+    "label": "-2",
+    "rating": "good",
+    "file": "sounds/minus2.mp3",
+    "description": "Monster verursacht 2 Schaden weniger."
+  },
+  {
+    "event_type": "null",
+    "category": "modifier",
+    "label": "Null",
+    "rating": "very_good",
+    "file": "sounds/null.mp3",
+    "description": "Monster verfehlt, löst Mischen aus."
+  },
+  {
+    "event_type": "bless",
+    "category": "modifier",
+    "label": "Segen",
+    "rating": "very_bad",
+    "file": "sounds/bless.mp3",
+    "description": "Segen im Monster-Deck: doppelter Schaden."
+  },
+  {
+    "event_type": "curse",
+    "category": "modifier",
+    "label": "Fluch",
+    "rating": "very_good",
+    "file": "sounds/curse.mp3",
+    "description": "Fluch im Monster-Deck: Monster verfehlt."
+  },
+  {
+    "event_type": "coin",
+    "category": "loot",
+    "label": "Münze",
+    "file": "sounds/coin.mp3",
+    "description": ""
+  },
+  {
+    "event_type": "lumber",
+    "category": "loot",
+    "label": "Holz",
+    "file": "sounds/lumber.mp3",
+    "description": ""
+  },
+  {
+    "event_type": "metal",
+    "category": "loot",
+    "label": "Metall",
+    "file": "sounds/metal.mp3",
+    "description": ""
+  },
+  {
+    "event_type": "hide",
+    "category": "loot",
+    "label": "Leder",
+    "file": "sounds/hide.mp3",
+    "description": ""
+  },
+  {
+    "event_type": "arrowvine",
+    "category": "loot",
+    "label": "Pfeilranke",
+    "file": "sounds/arrowvine.mp3",
+    "description": "Pflanze"
+  },
+  {
+    "event_type": "axenut",
+    "category": "loot",
+    "label": "Axtnuss",
+    "file": "sounds/axenut.mp3",
+    "description": "Pflanze"
+  },
+  {
+    "event_type": "corpsecap",
+    "category": "loot",
+    "label": "Leichenkappe",
+    "file": "sounds/corpsecap.mp3",
+    "description": "Pflanze"
+  },
+  {
+    "event_type": "flamefruit",
+    "category": "loot",
+    "label": "Flammenfrucht",
+    "file": "sounds/flamefruit.mp3",
+    "description": "Pflanze"
+  },
+  {
+    "event_type": "snowthistle",
+    "category": "loot",
+    "label": "Schneedistel",
+    "file": "sounds/snowthistle.mp3",
+    "description": "Pflanze"
+  },
+  {
+    "event_type": "rockroot",
+    "category": "loot",
+    "label": "Steinwurz",
+    "file": "sounds/rockroot.mp3",
+    "description": "Pflanze"
+  },
+  {
+    "event_type": "treasure",
+    "category": "loot",
+    "label": "Schatz",
+    "file": "sounds/treasure.mp3",
+    "description": ""
+  },
+  {
+    "event_type": "special_1418",
+    "category": "loot",
+    "label": "Sonderkarte 1418",
+    "file": "sounds/special_1418.mp3",
+    "description": "Besondere Beutekarte Nr. 1418"
+  },
+  {
+    "event_type": "special_1419",
+    "category": "loot",
+    "label": "Sonderkarte 1419",
+    "file": "sounds/special_1419.mp3",
+    "description": "Besondere Beutekarte Nr. 1419"
+  }
+]

@@ -1,0 +1,90 @@
+# Home-Assistant-Skript: spielt einen Frosthaven-Sound auf einem Echo ab.
+# In scripts.yaml einfügen (oder per UI: Skript anlegen → YAML bearbeiten,
+# dann nur den Inhalt unterhalb von "alexa_sound:" übernehmen).
+#
+# Voraussetzung: Alexa Media Player (HACS) ist eingerichtet.
+#
+# Wichtig: "type: tts" ist nötig. Mit "type: announce" bleibt der Echo bei
+# SSML-<audio> stumm.
+#
+# Alexa-Anforderungen an die Datei: MP3, 48 kbps, 24000/22050/16000 Hz,
+# öffentliche HTTPS-URL. Siehe README.md im Repository.
+
+alexa_sound:
+  alias: Alexa-Sound abspielen
+  description: Spielt einen Soundeffekt aus jonaskoe.github.io/frosthaven-sounds ab.
+  mode: queued
+  fields:
+    geraet:
+      name: Gerät
+      description: Echo-Lautsprecher (media_player-Entität von Alexa Media Player)
+      required: true
+      selector:
+        entity:
+          domain: media_player
+    sound:
+      name: Sound
+      description: event_type, also der Dateiname ohne .mp3
+      required: true
+      example: coin
+      selector:
+        select:
+          options:
+            - double
+            - plus2
+            - plus1
+            - plus0
+            - minus1
+            - minus2
+            - "null"
+            - bless
+            - curse
+            - coin
+            - lumber
+            - metal
+            - hide
+            - arrowvine
+            - axenut
+            - corpsecap
+            - flamefruit
+            - snowthistle
+            - rockroot
+            - treasure
+            - special_1418
+            - special_1419
+          custom_value: true
+  sequence:
+    - action: notify.alexa_media
+      data:
+        message: "<audio src='https://jonaskoe.github.io/frosthaven-sounds/sounds/{{ sound }}.mp3'/>"
+        target: "{{ geraet }}"
+        data:
+          # tts statt announce, sonst spielt der Echo SSML-Audio nicht ab
+          type: tts
+
+# ---------------------------------------------------------------------------
+# Beispielaufruf aus einer Automation (automations.yaml):
+#
+# - alias: Frosthaven – Münze gefunden
+#   triggers:
+#     - trigger: event
+#       event_type: frosthaven_loot        # Beispiel-Ereignis, an eigene Integration anpassen
+#       event_data:
+#         card: coin
+#   actions:
+#     - action: script.alexa_sound
+#       data:
+#         geraet: media_player.echo_wohnzimmer
+#         sound: coin
+#
+# Mit Template, wenn das Ereignis den event_type mitliefert:
+#
+#     - action: script.alexa_sound
+#       data:
+#         geraet: media_player.echo_wohnzimmer
+#         sound: "{{ trigger.event.data.card }}"
+#
+# Nach dem Ersetzen eines Sounds kann Alexa die alte Datei aus dem Cache
+# spielen. Dann ?v=2 an die URL im Skript hängen oder einen neuen Dateinamen
+# verwenden.
+# ---------------------------------------------------------------------------

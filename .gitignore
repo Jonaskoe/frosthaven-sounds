@@ -1,0 +1,4 @@
+raw/
+*.wav
+*.flac
+.DS_Store

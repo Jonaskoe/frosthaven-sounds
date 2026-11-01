@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Frosthaven Sounds</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --text: #1b1f24; --muted: #5d6673;
+    --border: #d9dde3; --accent: #2563eb; --accent-text: #ffffff;
+    --missing: #b45309; --ok: #15803d;
+    --vb: #b91c1c; --b: #ea580c; --n: #6b7280; --g: #16a34a; --vg: #15803d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1216; --card: #181c22; --text: #e6e9ee; --muted: #9aa3af;
+      --border: #2a3039; --accent: #60a5fa; --accent-text: #0f1216;
+      --missing: #f59e0b; --ok: #4ade80;
+      --vb: #f87171; --b: #fb923c; --n: #9ca3af; --g: #4ade80; --vg: #22c55e;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 880px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  h2 { font-size: 1.2rem; margin: 32px 0 12px; }
+  p.intro { color: var(--muted); margin: 0 0 8px; }
+  a { color: var(--accent); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9em; }
+  ul.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  li.row {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px; display: grid; gap: 8px 12px;
+    grid-template-columns: auto 1fr; align-items: center;
+  }
+  .play {
+    width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
+    background: var(--accent); color: var(--accent-text); font-size: 1rem;
+  }
+  .play:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+  .head { min-width: 0; }
+  .label { font-weight: 600; }
+  .event { color: var(--muted); margin-left: 6px; }
+  .desc { color: var(--muted); font-size: .9rem; }
+  .badge {
+    display: inline-block; font-size: .75rem; font-weight: 600; padding: 1px 8px;
+    border-radius: 999px; border: 1px solid currentColor; margin-left: 6px; vertical-align: 1px;
+  }
+  .very_bad { color: var(--vb); } .bad { color: var(--b); } .neutral { color: var(--n); }
+  .good { color: var(--g); } .very_good { color: var(--vg); }
+  .url { grid-column: 1 / -1; display: flex; gap: 8px; min-width: 0; }
+  .url input {
+    flex: 1; min-width: 0; padding: 8px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--bg); color: var(--text);
+    font: .85rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  .url button {
+    padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); cursor: pointer; white-space: nowrap;
+  }
+  .status { font-size: .85rem; }
+  .status.missing { color: var(--missing); }
+  .status.ok { color: var(--ok); }
+  .error { color: var(--vb); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Frosthaven Sounds</h1>
+  <p class="intro">Kurze MP3-Soundeffekte für Alexa (SSML <code>&lt;audio&gt;</code>). Die Liste stammt aus <a href="sounds.json"><code>sounds.json</code></a>.</p>
+  <p id="msg" class="intro"></p>
+
+  <h2>Angriffsmodifikatoren</h2>
+  <ul class="list" id="modifier"></ul>
+
+  <h2>Beute</h2>
+  <ul class="list" id="loot"></ul>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var RATING = {
+    very_bad: "sehr schlecht", bad: "schlecht", neutral: "neutral",
+    good: "gut", very_good: "sehr gut"
+  };
+  var current = null;
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function exists(url) {
+    return fetch(url, { method: "HEAD", cache: "no-store" })
+      .then(function (r) { return r.ok; })
+      .catch(function () { return false; });
+  }
+
+  function copy(text, input, btn) {
+    function done() {
+      var old = btn.textContent;
+      btn.textContent = "Kopiert";
+      setTimeout(function () { btn.textContent = old; }, 1200);
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done, function () { input.select(); });
+    } else {
+      input.select();
+      try { document.execCommand("copy"); done(); } catch (e) { /* manuell kopieren */ }
+    }
+  }
+
+  function row(s) {
+    var url = new URL(s.file, document.baseURI).href;
+    var li = el("li", "row");
+
+    var play = el("button", "play", "▶");
+    play.type = "button";
+    play.disabled = true;
+    play.setAttribute("aria-label", s.label + " abspielen");
+
+    var head = el("div", "head");
+    var line = el("div");
+    line.appendChild(el("span", "label", s.label));
+    line.appendChild(el("code", "event", s.event_type));
+    if (s.rating) line.appendChild(el("span", "badge " + s.rating, RATING[s.rating] || s.rating));
+    head.appendChild(line);
+    if (s.description) head.appendChild(el("div", "desc", s.description));
+    var status = el("div", "status", "prüfe …");
+    head.appendChild(status);
+
+    var urlBox = el("div", "url");
+    var input = el("input");
+    input.type = "text"; input.readOnly = true; input.value = url;
+    input.setAttribute("aria-label", "URL für " + s.event_type);
+    input.addEventListener("focus", function () { input.select(); });
+    var btn = el("button", null, "Kopieren");
+    btn.type = "button";
+    btn.addEventListener("click", function () { copy(url, input, btn); });
+    urlBox.appendChild(input); urlBox.appendChild(btn);
+
+    li.appendChild(play); li.appendChild(head); li.appendChild(urlBox);
+
+    exists(url).then(function (ok) {
+      status.textContent = ok ? "vorhanden" : "fehlt noch";
+      status.className = "status " + (ok ? "ok" : "missing");
+      play.disabled = !ok;
+    });
+
+    play.addEventListener("click", function () {
+      if (current) { current.audio.pause(); current.btn.textContent = "▶"; }
+      if (current && current.btn === play) { current = null; return; }
+      var audio = new Audio(url + "?t=" + Date.now());
+      current = { audio: audio, btn: play };
+      play.textContent = "■";
+      audio.addEventListener("ended", function () { play.textContent = "▶"; current = null; });
+      audio.play().catch(function () {
+        play.textContent = "▶"; current = null;
+        status.textContent = "Abspielen fehlgeschlagen";
+        status.className = "status missing";
+      });
+    });
+
+    return li;
+  }
+
+  fetch("sounds.json", { cache: "no-store" })
+    .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(function (list) {
+      list.forEach(function (s) {
+        var target = document.getElementById(s.category);
+        if (target) target.appendChild(row(s));
+      });
+    })
+    .catch(function (e) {
+      var m = document.getElementById("msg");
+      m.className = "intro error";
+      m.textContent = "sounds.json konnte nicht geladen werden (" + e.message + "). " +
+        "Lokal bitte über einen Webserver öffnen, z. B. python3 -m http.server";
+    });
+})();
+</script>
+</body>
+</html>
