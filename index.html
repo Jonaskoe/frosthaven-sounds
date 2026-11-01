@@ -66,6 +66,11 @@
   .status.missing { color: var(--missing); }
   .status.ok { color: var(--ok); }
   .error { color: var(--vb); }
+  .credit { color: var(--muted); font-size: .85rem; overflow-wrap: anywhere; }
+  ul.credits { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+  ul.credits li { overflow-wrap: anywhere; }
+  .credit a, ul.credits a { white-space: nowrap; }
+  ul.credits .used { color: var(--muted); font-size: .9rem; }
 </style>
 </head>
 <body>
@@ -79,6 +84,11 @@
 
   <h2>Beute</h2>
   <ul class="list" id="loot"></ul>
+
+  <h2>Credits</h2>
+  <p class="intro">Danke an alle Urheber! Die vollständige Liste mit allen Änderungen steht in
+    <a href="CREDITS.md"><code>CREDITS.md</code></a>.</p>
+  <ul class="credits" id="credits"></ul>
 </main>
 
 <script>
@@ -88,6 +98,11 @@
     very_bad: "sehr schlecht", bad: "schlecht", neutral: "neutral",
     good: "gut", very_good: "sehr gut"
   };
+  var LICENSES = {
+    "CC0 1.0": "https://creativecommons.org/publicdomain/zero/1.0/deed.de",
+    "CC BY 3.0": "https://creativecommons.org/licenses/by/3.0/deed.de",
+    "CC BY 4.0": "https://creativecommons.org/licenses/by/4.0/deed.de"
+  };
   var current = null;
 
   function el(tag, cls, text) {
@@ -95,6 +110,55 @@
     if (cls) e.className = cls;
     if (text != null) e.textContent = text;
     return e;
+  }
+
+  function link(href, text) {
+    if (!/^https:\/\//.test(href || "")) return document.createTextNode(text);
+    var a = el("a", null, text);
+    a.href = href; a.rel = "noopener"; a.target = "_blank";
+    return a;
+  }
+
+  // Liest die Tabelle unter "## Sounds" aus CREDITS.md (ohne Codeblöcke mit Beispielzeilen).
+  function parseCredits(md) {
+    var map = {}, section = false, fence = false;
+    md.split(/\r?\n/).forEach(function (line) {
+      if (/^```/.test(line)) { fence = !fence; return; }
+      if (fence) return;
+      if (/^##\s/.test(line)) { section = /^##\s+Sounds\s*$/.test(line); return; }
+      if (!section || line.charAt(0) !== "|") return;
+      var c = line.split("|").slice(1, -1).map(function (x) { return x.trim(); });
+      if (c.length < 5 || c[0] === "event_type" || /^-+$/.test(c[0]) || !c[1]) return;
+      map[c[0]] = { source: c[1], author: c[2], license: c[3], changes: c[4] };
+    });
+    return map;
+  }
+
+  function sourceText(src) {
+    return src.replace(/^https:\/\//, "").replace(/\/$/, "");
+  }
+
+  function creditLine(c) {
+    var d = el("div", "credit");
+    d.appendChild(document.createTextNode("Quelle: "));
+    d.appendChild(link(c.source, sourceText(c.source)));
+    if (c.author) d.appendChild(document.createTextNode(" von " + c.author));
+    if (c.license) {
+      d.appendChild(document.createTextNode(" · Lizenz: "));
+      d.appendChild(link(LICENSES[c.license], c.license));
+    }
+    return d;
+  }
+
+  // Gleiche Quelle nur einmal: Schlüssel aus Quelle, Urheber und Lizenz.
+  function uniqueCredits(list) {
+    var seen = {}, out = [];
+    list.forEach(function (c) {
+      if (!c) return;
+      var k = c.source + "|" + c.author + "|" + c.license;
+      if (!seen[k]) { seen[k] = true; out.push(c); }
+    });
+    return out;
   }
 
   function exists(url) {
@@ -133,6 +197,7 @@
     if (s.rating) line.appendChild(el("span", "badge " + s.rating, RATING[s.rating] || s.rating));
     head.appendChild(line);
     if (s.description) head.appendChild(el("div", "desc", s.description));
+    (s.credits || []).forEach(function (c) { head.appendChild(creditLine(c)); });
     var status = el("div", "status", "prüfe …");
     head.appendChild(status);
 
@@ -171,9 +236,41 @@
     return li;
   }
 
+  function renderCredits(list, credits) {
+    var bySource = {}, order = [];
+    list.forEach(function (s) {
+      var c = credits[s.event_type];
+      if (!c) return;
+      var k = c.source + "|" + c.author + "|" + c.license;
+      if (!bySource[k]) { bySource[k] = { c: c, labels: [] }; order.push(k); }
+      bySource[k].labels.push(s.label);
+    });
+    var ul = document.getElementById("credits");
+    order.forEach(function (k) {
+      var e = bySource[k], li = el("li");
+      li.appendChild(document.createTextNode((e.c.author || "unbekannt") + " – "));
+      li.appendChild(link(e.c.source, sourceText(e.c.source)));
+      if (e.c.license) {
+        li.appendChild(document.createTextNode(" – "));
+        li.appendChild(link(LICENSES[e.c.license], e.c.license));
+      }
+      li.appendChild(el("div", "used", "verwendet für: " + e.labels.join(", ")));
+      ul.appendChild(li);
+    });
+  }
+
+  var creditsReq = fetch("CREDITS.md", { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.text() : ""; })
+    .then(parseCredits)
+    .catch(function () { return {}; });
+
   fetch("sounds.json", { cache: "no-store" })
     .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-    .then(function (list) {
+    .then(function (list) { return creditsReq.then(function (credits) { return [list, credits]; }); })
+    .then(function (res) {
+      var list = res[0], credits = res[1];
+      list.forEach(function (s) { s.credits = uniqueCredits([credits[s.event_type]]); });
+      renderCredits(list, credits);
       // Einträge mit gleichem "group" teilen sich einen Sound und erscheinen als eine Zeile.
       var items = [], groups = {};
       list.forEach(function (s) {
@@ -190,6 +287,7 @@
           s.description = "Ein gemeinsamer Sound für: " + s.members.map(function (m) {
             return m.label + " (" + m.event_type + ")";
           }).join(", ") + ". Jedes Ereignis hat seine eigene URL sounds/<event_type>.mp3.";
+          s.credits = uniqueCredits(s.members.map(function (m) { return credits[m.event_type]; }));
         }
         var target = document.getElementById(s.category);
         if (target) target.appendChild(row(s));
