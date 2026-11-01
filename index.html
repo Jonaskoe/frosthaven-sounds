@@ -129,7 +129,7 @@
     var head = el("div", "head");
     var line = el("div");
     line.appendChild(el("span", "label", s.label));
-    line.appendChild(el("code", "event", s.event_type));
+    if (s.event_type) line.appendChild(el("code", "event", s.event_type));
     if (s.rating) line.appendChild(el("span", "badge " + s.rating, RATING[s.rating] || s.rating));
     head.appendChild(line);
     if (s.description) head.appendChild(el("div", "desc", s.description));
@@ -139,7 +139,7 @@
     var urlBox = el("div", "url");
     var input = el("input");
     input.type = "text"; input.readOnly = true; input.value = url;
-    input.setAttribute("aria-label", "URL für " + s.event_type);
+    input.setAttribute("aria-label", "URL für " + (s.event_type || s.label));
     input.addEventListener("focus", function () { input.select(); });
     var btn = el("button", null, "Kopieren");
     btn.type = "button";
@@ -174,7 +174,23 @@
   fetch("sounds.json", { cache: "no-store" })
     .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
     .then(function (list) {
+      // Einträge mit gleichem "group" teilen sich einen Sound und erscheinen als eine Zeile.
+      var items = [], groups = {};
       list.forEach(function (s) {
+        if (!s.group) { items.push(s); return; }
+        var g = groups[s.group];
+        if (!g) {
+          g = groups[s.group] = { label: s.group, category: s.category, file: s.file, members: [] };
+          items.push(g);
+        }
+        g.members.push(s);
+      });
+      items.forEach(function (s) {
+        if (s.members) {
+          s.description = "Ein gemeinsamer Sound für: " + s.members.map(function (m) {
+            return m.label + " (" + m.event_type + ")";
+          }).join(", ") + ". Jedes Ereignis hat seine eigene URL sounds/<event_type>.mp3.";
+        }
         var target = document.getElementById(s.category);
         if (target) target.appendChild(row(s));
       });

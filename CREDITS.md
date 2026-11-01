@@ -28,18 +28,18 @@ Vor jedem Commit eines Sounds muss seine Zeile hier ausgefüllt sein.
 | bless | https://freesound.org/s/760720/ | ronse | CC0 1.0 | Ausschnitt 3,8–6,5 s, ein-/ausgeblendet, Stille entfernt, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
 | curse | https://freesound.org/s/819683/ | HAHAVOID | CC0 1.0 | Ausschnitt 0–2,6 s, ausgeblendet, Stille entfernt, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
 | coin | https://freesound.org/s/329033/ | humanoide9000 | CC0 1.0 | Stille entfernt, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
-| lumber | | | | |
-| metal | | | | |
-| hide | | | | |
-| arrowvine | | | | |
-| axenut | | | | |
-| corpsecap | | | | |
-| flamefruit | | | | |
-| snowthistle | | | | |
-| rockroot | | | | |
-| treasure | | | | |
-| special_1418 | | | | |
-| special_1419 | | | | |
+| lumber | https://freesound.org/s/822567/ | qubodup | CC0 1.0 | mit Stille auf 0,6 s verlängert, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
+| metal | https://freesound.org/s/331455/ | the_yura | CC0 1.0 | Stille entfernt, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
+| hide | https://freesound.org/s/501015/ | Crinkem | CC0 1.0 | Stille entfernt, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
+| arrowvine | https://freesound.org/s/822565/ | qubodup | CC0 1.0 | mit Stille auf 0,6 s verlängert, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
+| axenut | https://freesound.org/s/822565/ | qubodup | CC0 1.0 | mit Stille auf 0,6 s verlängert, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
+| corpsecap | https://freesound.org/s/822565/ | qubodup | CC0 1.0 | mit Stille auf 0,6 s verlängert, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
+| flamefruit | https://freesound.org/s/822565/ | qubodup | CC0 1.0 | mit Stille auf 0,6 s verlängert, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
+| snowthistle | https://freesound.org/s/822565/ | qubodup | CC0 1.0 | mit Stille auf 0,6 s verlängert, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
+| rockroot | https://freesound.org/s/822565/ | qubodup | CC0 1.0 | mit Stille auf 0,6 s verlängert, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
+| treasure | https://freesound.org/s/113989/ | Kastenfrosch | CC0 1.0 | Stille entfernt, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
+| special_1418 | https://freesound.org/s/822565/ | qubodup | CC0 1.0 | mit Stille auf 0,6 s verlängert, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
+| special_1419 | https://freesound.org/s/822565/ | qubodup | CC0 1.0 | mit Stille auf 0,6 s verlängert, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
 
 Beispielzeilen:
 

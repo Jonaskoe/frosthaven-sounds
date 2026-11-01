@@ -54,6 +54,9 @@ Alle Dateien liegen flach in `sounds/`. Der Dateiname ohne `.mp3` ist der `event
 | `special_1418` | Sonderkarte 1418 |
 | `special_1419` | Sonderkarte 1419 |
 
+Die sechs Kräuter und die beiden Sonderkarten teilen sich einen Sound (`group` in `sounds.json`).
+Jedes Ereignis behält seine eigene URL `sounds/<event_type>.mp3`, das Home-Assistant-Skript bleibt also gleich.
+
 Die maßgebliche Liste ist [`sounds.json`](sounds.json). Jeder Eintrag hat diese Felder:
 
 | Feld | Inhalt |
@@ -64,6 +67,7 @@ Die maßgebliche Liste ist [`sounds.json`](sounds.json). Jeder Eintrag hat diese
 | `rating` | nur bei Modifikatoren: `very_bad`, `bad`, `neutral`, `good`, `very_good` |
 | `file` | `sounds/<event_type>.mp3` |
 | `description` | kurze Beschreibung, darf leer sein |
+| `group` | optional: Einträge mit gleichem Wert teilen sich einen Sound und erscheinen auf der Vorhörseite als eine Zeile |
 
 ## Alexa-Anforderungen
 

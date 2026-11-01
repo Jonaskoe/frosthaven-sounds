@@ -104,42 +104,48 @@
     "category": "loot",
     "label": "Pfeilranke",
     "file": "sounds/arrowvine.mp3",
-    "description": "Pflanze"
+    "description": "Pflanze",
+    "group": "Kräuter und Sonderkarten"
   },
   {
     "event_type": "axenut",
     "category": "loot",
     "label": "Axtnuss",
     "file": "sounds/axenut.mp3",
-    "description": "Pflanze"
+    "description": "Pflanze",
+    "group": "Kräuter und Sonderkarten"
   },
   {
     "event_type": "corpsecap",
     "category": "loot",
     "label": "Leichenkappe",
     "file": "sounds/corpsecap.mp3",
-    "description": "Pflanze"
+    "description": "Pflanze",
+    "group": "Kräuter und Sonderkarten"
   },
   {
     "event_type": "flamefruit",
     "category": "loot",
     "label": "Flammenfrucht",
     "file": "sounds/flamefruit.mp3",
-    "description": "Pflanze"
+    "description": "Pflanze",
+    "group": "Kräuter und Sonderkarten"
   },
   {
     "event_type": "snowthistle",
     "category": "loot",
     "label": "Schneedistel",
     "file": "sounds/snowthistle.mp3",
-    "description": "Pflanze"
+    "description": "Pflanze",
+    "group": "Kräuter und Sonderkarten"
   },
   {
     "event_type": "rockroot",
     "category": "loot",
     "label": "Steinwurz",
     "file": "sounds/rockroot.mp3",
-    "description": "Pflanze"
+    "description": "Pflanze",
+    "group": "Kräuter und Sonderkarten"
   },
   {
     "event_type": "treasure",
@@ -153,13 +159,15 @@
     "category": "loot",
     "label": "Sonderkarte 1418",
     "file": "sounds/special_1418.mp3",
-    "description": "Besondere Beutekarte Nr. 1418"
+    "description": "Besondere Beutekarte Nr. 1418",
+    "group": "Kräuter und Sonderkarten"
   },
   {
     "event_type": "special_1419",
     "category": "loot",
     "label": "Sonderkarte 1419",
     "file": "sounds/special_1419.mp3",
-    "description": "Besondere Beutekarte Nr. 1419"
+    "description": "Besondere Beutekarte Nr. 1419",
+    "group": "Kräuter und Sonderkarten"
   }
 ]
