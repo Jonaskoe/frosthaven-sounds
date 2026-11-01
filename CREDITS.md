@@ -27,7 +27,7 @@ Vor jedem Commit eines Sounds muss seine Zeile hier ausgefüllt sein.
 | null | | | | |
 | bless | | | | |
 | curse | | | | |
-| coin | | | | |
+| coin | https://freesound.org/s/329033/ | humanoide9000 | CC0 1.0 | Stille entfernt, normalisiert (-16 LUFS), MP3 48 kbps/24 kHz |
 | lumber | | | | |
 | metal | | | | |
 | hide | | | | |
